@@ -47,8 +47,32 @@ if (typeof module != "undefined" && module.exports)
 
 var ancestry = JSON.parse(ANCESTRY_FILE);
 var daFirstName = ancestry[0].name;
+console.log(daFirstName);
+
+function findMoms(){
+    ancestry.forEach(function(person){
+        var self = person.name;
+        var mom = ancestry[person.mother];
+        // console.log(mom + 'is mom of ' + self);
+    });
+}
+findMoms();
+
+// 2 WAYS TO GET AN OBJECT BY VALUE OF NAME PROPERTY
+// 1.
+var byName = {};
+ancestry.forEach(function(person){
+    byName[person.name] = person;
+});
+console.log(byName["Philibert Haverbeke"]);
+// 2.
+var filteredArray2 = ancestry.filter(function(person){
+    return person.name == 'Philibert Haverbeke';
+});
+console.log(filteredArray2);
 
 
+// for each person in ancestry array, log name and year born
 function logThis(item){
   ancestry.forEach(function(person){
      var introduction = person.name + ' was born in ' + person.born;
@@ -56,24 +80,50 @@ function logThis(item){
   });
 }
 
-// function to return all folks born before year passed in argument
-// passed to filter. so it's argument is
-function BornBefore1900(person){
-    if(person.born < 1900){
-        console.log(person.name + ' was born before 1900.');
+
+// FILTER WITH HELPER FUNCTION
+// pass a function variable as an argument to the filter method of an array
+// helper function needs to specify a paramter name it can then operate on
+var filteredAncestors = ancestry.filter(logNames);
+console.log(filteredAncestors);
+function logNames(person){
+    return person.born < 1900;
+}
+
+// MAP WITH HELPER FUNCTION
+// array's map function maps each item to a new array
+var mappedArray = ancestry.map(getNameOnly);
+console.log(mappedArray);
+function getNameOnly(item){
+    if (item.sex == 'm')
+        return item.name + 'is a guy.';
+    else {
+        return item.name + 'is a gal.';
     }
 }
-// returns an array of entries who meet criteria of filter function
-// anything filter arg f returns as true is added to new array
-// ancestry.filter(function(person){
-//     if(person.born < 1900){
-//         console.log(person);
-//     }
-// });
-ancestry.filter(BornBefore1900);
+
+// MOTHER CHILD AGE DIFFERENCE
+// if mother not in set, person child is excluded
+
+// get array justNames
+
+
+// iterate ancestry and see if .mother is in justNames
+
+
+//  subtract mother born year from child born year and reduce these into a total single number then divide it by the number of children in calculation
+
+
+
+
+
+
+
+
 
 window.onload = function(){
   var button1 = document.getElementById('buttonOne');
   button1.addEventListener('click', logThis);
+
 
 };
