@@ -47,29 +47,82 @@ if (typeof module != "undefined" && module.exports)
 
 var ancestry = JSON.parse(ANCESTRY_FILE);
 var daFirstName = ancestry[0].name;
-console.log(daFirstName);
+// console.log(daFirstName);
 
-function findMoms(){
-    ancestry.forEach(function(person){
-        var self = person.name;
-        var mom = ancestry[person.mother];
-        // console.log(mom + 'is mom of ' + self);
-    });
-}
-findMoms();
 
-// 2 WAYS TO GET AN OBJECT BY VALUE OF NAME PROPERTY
-// 1.
-var byName = {};
+/* ===================================================
+            MOTHER CHILD AGE DIFFERENCE
+====================================================== */
+// for each person find mother and log her object if it exists
+// var nameFilter;
+var difsArray = [];
 ancestry.forEach(function(person){
-    byName[person.name] = person;
+    var childBorn = person.born;
+    nameFilter = person.mother;
+    var motherObject = ancestry.filter(getObjectFromName);
+    // console.log(nameFilter);
+    var motherBorn;
+    if (motherObject[0]) {
+        // console.log(motherObject[0].born);
+        motherBorn = motherObject[0].born;
+        var ageDif = childBorn - motherBorn;
+        difsArray.push(ageDif);
+    }
 });
-console.log(byName["Philibert Haverbeke"]);
-// 2.
-var filteredArray2 = ancestry.filter(function(person){
-    return person.name == 'Philibert Haverbeke';
-});
-console.log(filteredArray2);
+// console.log(difsArray);
+var arraySum = difsArray.reduce(getSum);
+var averageDif = arraySum / difsArray.length;
+console.log('For cases where both both mother and child appear in the data, the average age of mothers when they had their child is ' + averageDif.toFixed(0) +
+'.');
+
+// helper function: get average of an array
+function getSum(accumulator, value){
+    return accumulator + value;
+}
+
+// helper function: gets an object by value of it's name property
+function getObjectFromName(person){
+    return person.name == nameFilter;
+}
+
+/* ===================================================
+    AVERAGE AGE BY CENTURY (20TH, 19TH, 18TH...)
+====================================================== */
+var century20Ages = [];
+var century19Ages = [];
+var century18Ages = [];
+var century17Ages = [];
+var century16Ages = [];
+
+ancestry.forEach(addToSubArray);
+getAverage(century20Ages);
+
+// get average from an array
+function getAverage(array){
+    console.log(array);
+    var sum = array.reduce(getSum); // sum of all nums in array
+    var avg = sum / array.length;
+    console.log(avg);
+}
+
+
+
+function addToSubArray(person){
+    var age = person.died - person.born;
+    if (person.died < 2000 && person.died >= 1900){
+        century20Ages.push(age);
+    }
+
+}
+
+
+
+
+
+
+
+
+
 
 
 // for each person in ancestry array, log name and year born
@@ -85,7 +138,7 @@ function logThis(item){
 // pass a function variable as an argument to the filter method of an array
 // helper function needs to specify a paramter name it can then operate on
 var filteredAncestors = ancestry.filter(logNames);
-console.log(filteredAncestors);
+// console.log(filteredAncestors);
 function logNames(person){
     return person.born < 1900;
 }
@@ -93,7 +146,7 @@ function logNames(person){
 // MAP WITH HELPER FUNCTION
 // array's map function maps each item to a new array
 var mappedArray = ancestry.map(getNameOnly);
-console.log(mappedArray);
+// console.log(mappedArray);
 function getNameOnly(item){
     if (item.sex == 'm')
         return item.name + 'is a guy.';
@@ -102,16 +155,7 @@ function getNameOnly(item){
     }
 }
 
-// MOTHER CHILD AGE DIFFERENCE
-// if mother not in set, person child is excluded
 
-// get array justNames
-
-
-// iterate ancestry and see if .mother is in justNames
-
-
-//  subtract mother born year from child born year and reduce these into a total single number then divide it by the number of children in calculation
 
 
 
