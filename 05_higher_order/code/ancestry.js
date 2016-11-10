@@ -88,29 +88,68 @@ function getObjectFromName(person){
 /* ===================================================
     AVERAGE AGE BY CENTURY (20TH, 19TH, 18TH...)
 ====================================================== */
-var century20Ages = [];
-var century19Ages = [];
-var century18Ages = [];
-var century17Ages = [];
-var century16Ages = [];
+// object holding array of ages for each century
+var agesByCentury = {
+    century20Ages: [],
+    century19Ages: [],
+    century18Ages: [],
+    century17Ages: [],
+    century16Ages: []
+};
+var averageAgeByCentury = [];
 
-ancestry.forEach(addToSubArray);
-getAverage(century20Ages);
+// call the master function
+historicalLifeExpectancy();
 
-// get average from an array
-function getAverage(array){
-    console.log(array);
-    var sum = array.reduce(getSum); // sum of all nums in array
-    var avg = sum / array.length;
-    console.log(avg);
+function historicalLifeExpectancy(){
+    // get ages of people and put them into sub arrays by century of death
+    ancestry.forEach(addAgeToSubArray);
+    // console.log(agesByCentury);
+    getAllAverages(agesByCentury);
+    // console.log(averageAgeByCentury);
+    logAverages(averageAgeByCentury);
 }
 
+function logAverages(array){
+    // iterate and give starting century
+    var startingCentury = 20;
+    for (var i=0; i<array.length; i++){
+        // get value and output message
+        var avg = array[i].toFixed(0);
+        console.log('Average lifespan for the ' + startingCentury + 'th Century was ' + avg + ' years.');
+        startingCentury -= 1;
+    }
+}
 
+function getAllAverages(data){
+    for (var key in agesByCentury){
+        var agesArray = agesByCentury[key]; // the array (value of the key)
+        var avg = getOneAverage(agesArray); // get array average
+        averageAgeByCentury.push(avg);
+    }
+}
 
-function addToSubArray(person){
+// get average from an array
+function getOneAverage(array){
+    // console.log(array);
+    var sum = array.reduce(getSum); // sum of all nums in array
+    var avg = sum / array.length;
+    // console.log(avg);
+    return avg;
+}
+
+function addAgeToSubArray(person){
     var age = person.died - person.born;
     if (person.died < 2000 && person.died >= 1900){
-        century20Ages.push(age);
+        agesByCentury.century20Ages.push(age);
+    } else if (person.died < 1900 && person.died >= 1800){
+        agesByCentury.century19Ages.push(age);
+    } else if (person.died < 1800 && person.died >= 1700){
+        agesByCentury.century18Ages.push(age);
+    } else if (person.died < 1700 && person.died >= 1600){
+        agesByCentury.century17Ages.push(age);
+    } else if (person.died < 1600 && person.died >= 1500){
+        agesByCentury.century16Ages.push(age);
     }
 
 }
