@@ -86,8 +86,9 @@ function getObjectFromName(person){
 }
 
 /* ===================================================
-    AVERAGE AGE BY CENTURY (20TH, 19TH, 18TH...)
+            HISTORICAL LIFE EXPECTANCY
 ====================================================== */
+
 // object holding array of ages for each century
 var agesByCentury = {
     century20Ages: [],
@@ -151,18 +152,45 @@ function addAgeToSubArray(person){
     } else if (person.died < 1600 && person.died >= 1500){
         agesByCentury.century16Ages.push(age);
     }
-
 }
 
+/* ===================================================
+                EVERY AND SOME HOMEMADE FUNCTIONS
+====================================================== */
+
+// return true first time we get a true. if get false keep trying for a true.
+function some(array, predicate){
+    for (var i=0; i< array.length; i++){
+        if (predicate(array[i])){
+            return true;
+        }
+    }
+    return false;
+}
+// return false first time we get a false. if all true return true.
+function every(array, predicate){    
+    for (var i=0; i< array.length; i++){
+        if (!predicate(array[i])){
+            return false;
+        }
+    }
+    return true;
+}
+
+var stringsArray = ['joe', 'bob', 'tim'];
+var mixedArray = [3, 4, 5, 'bob'];
+var numbersArray = [4, 5, 6];
+function predicate(x){
+    return typeof x == 'number';
+}
+console.log(some(stringsArray, predicate)); // false
+console.log(some(numbersArray, predicate)); // true
+console.log(every(mixedArray, predicate)); // false
 
 
-
-
-
-
-
-
-
+/* ===================================================
+                OTHER STUFF....
+====================================================== */
 
 // for each person in ancestry array, log name and year born
 function logThis(item){
@@ -171,7 +199,6 @@ function logThis(item){
      console.log(introduction);
   });
 }
-
 
 // FILTER WITH HELPER FUNCTION
 // pass a function variable as an argument to the filter method of an array
@@ -194,19 +221,7 @@ function getNameOnly(item){
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 window.onload = function(){
   var button1 = document.getElementById('buttonOne');
   button1.addEventListener('click', logThis);
-
-
 };
