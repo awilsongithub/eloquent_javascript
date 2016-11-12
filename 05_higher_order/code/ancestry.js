@@ -111,6 +111,33 @@ function historicalLifeExpectancy(){
     logAverages(averageAgeByCentury);
 }
 
+// how old was person at death and when did they die?
+function addAgeToSubArray(person){
+    var died = person.died;
+    var born = person.born;
+    var age = died - born;
+    if (died >= 1900 && died < 2000){
+        agesByCentury.century20Ages.push(age);
+    } else if (died >= 1800 && died < 1900){
+        agesByCentury.century19Ages.push(age);
+    } else if (died >= 1700 && died < 1800){
+        agesByCentury.century18Ages.push(age);
+    } else if (died >= 1600 && died < 1700){
+        agesByCentury.century17Ages.push(age);
+    } else if (died >= 1500 && died < 1600){
+        agesByCentury.century16Ages.push(age);
+    }
+}
+
+// get the average age for each century 
+function getAllAverages(data){
+    for (var key in agesByCentury){
+        var agesArray = agesByCentury[key]; // the array (value of the key)
+        var avg = getOneAverage(agesArray); // get array average
+        averageAgeByCentury.push(avg);
+    }
+}
+
 function logAverages(array){
     // iterate and give starting century
     var startingCentury = 20;
@@ -119,14 +146,6 @@ function logAverages(array){
         var avg = array[i].toFixed(0);
         console.log('Average lifespan for the ' + startingCentury + 'th Century was ' + avg + ' years.');
         startingCentury -= 1;
-    }
-}
-
-function getAllAverages(data){
-    for (var key in agesByCentury){
-        var agesArray = agesByCentury[key]; // the array (value of the key)
-        var avg = getOneAverage(agesArray); // get array average
-        averageAgeByCentury.push(avg);
     }
 }
 
@@ -139,23 +158,10 @@ function getOneAverage(array){
     return avg;
 }
 
-function addAgeToSubArray(person){
-    var age = person.died - person.born;
-    if (person.died < 2000 && person.died >= 1900){
-        agesByCentury.century20Ages.push(age);
-    } else if (person.died < 1900 && person.died >= 1800){
-        agesByCentury.century19Ages.push(age);
-    } else if (person.died < 1800 && person.died >= 1700){
-        agesByCentury.century18Ages.push(age);
-    } else if (person.died < 1700 && person.died >= 1600){
-        agesByCentury.century17Ages.push(age);
-    } else if (person.died < 1600 && person.died >= 1500){
-        agesByCentury.century16Ages.push(age);
-    }
-}
+
 
 /* ===================================================
-                EVERY AND SOME HOMEMADE FUNCTIONS
+                EVERY AND SOME
 ====================================================== */
 
 // return true first time we get a true. if get false keep trying for a true.
@@ -168,7 +174,7 @@ function some(array, predicate){
     return false;
 }
 // return false first time we get a false. if all true return true.
-function every(array, predicate){    
+function every(array, predicate){
     for (var i=0; i< array.length; i++){
         if (!predicate(array[i])){
             return false;
