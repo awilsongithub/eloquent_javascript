@@ -35,10 +35,23 @@ ENUMERABLE vs. NONENUMERABLE PROPERTIES
 YOU HAVE A CHOICE!
 ENUMERATE: "to mention one by one as in a list"
 ===================================== */
-// if you want them mentioned as props of instances
-Object.prototype.enumerateMe = 'hello everybody!';
-// if you don't, use defineProperty
+// 1. assign 3 properties, 2 using defineProperty 1 of which should be nonenumerable.
+// 2. log all non-enumerable properties. then log all properties.
+Object.prototype.enumerateMe = 'hello from prototype!'; // enumerable in self and instances
+Object.prototype.readyOrNot = 'careful, folks can see me. Im hiding in your prototype'; // enumerable in self and instances
+// defineProperty gives us a choice
 Object.defineProperty(Object.prototype, 'dontEnumerateMe', {enumerable: false, value: 'on the DL'});
-for (var key in evilRabbit){
+Object.defineProperty(Object.prototype, 'definedAndProud', {enumerable: true, value: 'out of the shadows'});
+Object.defineProperty(woofer, 'wooferHidden', {enumerable: false, value: 'shhhhh'});
+Object.defineProperty(woofer, 'wooferEnumerate', {enumerable: true, value: 'hello all!'});
+
+// constructor given, hello everybody, hello all,
+for (var key in woofer){
     console.log(key); // will include
+}
+// make an object without any prototype. a clean, lonely new thing.
+var noRoots = Object.create(null);
+noRoots.justMine = 'this is only mine';
+for (var item in noRoots){
+    console.log(item);
 }
