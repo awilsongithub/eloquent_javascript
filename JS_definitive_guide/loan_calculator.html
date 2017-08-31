@@ -19,16 +19,10 @@
             #graph      { border: solid black 1px; }
             th, td      { vertical-align: top; }
             th          { background-color: lightgrey; }
-            #container-homemade {
-                margin: auto;
-                display: block;
-                width: 90%;
-            }
             table {
                 width: 100%;
-                margin-left: 15px;
-                margin-right: 15px;
-                padding-top: 65px;
+                padding-left: 15px;
+                padding-right: 15px;
             }
             /*input, button { border-radius: 2px; border: 1px solid lightgrey; }
             button      { width: 100%; background-color: #eee; }
@@ -51,6 +45,7 @@
         Always shows a header, even in smaller screens.
         =================================== -->
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
           <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
               <!-- Title -->
@@ -66,6 +61,7 @@
               </nav>
             </div>
           </header>
+
           <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">Title</span>
             <nav class="mdl-navigation">
@@ -75,70 +71,65 @@
               <a class="mdl-navigation__link" href="">Link</a>
             </nav>
           </div>
+
           <main class="mdl-layout__content">
-            <div class="page-content"><!-- Your content goes here --></div>
+            <div class="page-content">
+                <!-- Your content goes here -->
+
+                <table>
+                    <tr>
+                        <th>Enter Loan Data</th>
+                        <td></td>
+                        <th>Loan Balance, Cumulative Equity, and Interest Payments</th>
+                    </tr>
+                    <tr>
+                        <td>Amount of Loan</td>
+                        <td><input class="mdl-textfield__input" onchange='calculate();' id='amount'></td>
+                        <td rowspan=8>
+                            <canvas id="graph" width="400" height="250"></canvas>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Annual Interest (%)</td>
+                        <td><input class="mdl-textfield__input" id='apr' onchange='calculate();'></td>
+                    </tr>
+                    <tr>
+                        <td>Repayment Period (years)</td>
+                        <td><input class="mdl-textfield__input" id='years' onchange='calculate();'></td>
+                    </tr>
+                    <tr>
+                        <td>Zipcode (to find lenders)</td>
+                        <td><input class="mdl-textfield__input" id='zipcode' onchange='calculate();'></td>
+                    </tr>
+                    <tr>
+                        <td>Approximate Payments</td>
+                        <td><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick='calculate();'>Calculate</button></td>
+                    </tr>
+                    <tr>
+                        <td>Monthly Payment</td>
+                        <td>$ <span class='output' id='payment'></span></td>
+                    </tr>
+                    <tr>
+                        <td>Total Payment</td>
+                        <td>$ <span class='output' id='total'></span></td>
+                    </tr>
+                    <tr>
+                        <td>Total Interest</td>
+                        <td>$ <span class='output' id='totalinterest'></span></td>
+                    </tr>
+                    <!-- end form. begin sponsors section below graph and form -->
+                    <tr>
+                        <th>Sponsors</th>
+                        <td colspan=2>
+                            Apply for a loan with one of these fine lenders:
+                            <div id='lenders'></div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
           </main>
         </div>
 
-        <div class="container-homemade">
-
-        <table>
-            <tr>
-                <th>Enter Loan Data</th>
-                <td></td>
-                <th>Loan Balance, Cumulative Equity, and Interest Payments</th>
-            </tr>
-            <tr>
-                <td>Amount of Loan</td>
-                <td><input class="mdl-textfield__input" onchange='calculate();' id='amount'></td>
-                <td rowspan=8>
-                    <canvas id="graph" width="400" height="250"></canvas>
-                </td>
-            </tr>
-            <tr>
-                <td>Annual Interest (%)</td>
-                <td><input class="mdl-textfield__input" id='apr' onchange='calculate();'></td>
-            </tr>
-            <tr>
-                <td>Repayment Period (years)</td>
-                <td><input class="mdl-textfield__input" id='years' onchange='calculate();'></td>
-            </tr>
-            <tr>
-                <td>Zipcode (to find lenders)</td>
-                <td><input class="mdl-textfield__input" id='zipcode' onchange='calculate();'></td>
-            </tr>
-            <tr>
-                <td>Approximate Payments</td>
-                <td><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" onclick='calculate();'>Calculate</button></td>
-
-
-
-
-            </tr>
-            <tr>
-                <td>Monthly Payment</td>
-                <td>$ <span class='output' id='payment'></span></td>
-            </tr>
-            <tr>
-                <td>Total Payment</td>
-                <td>$ <span class='output' id='total'></span></td>
-            </tr>
-            <tr>
-                <td>Total Interest</td>
-                <td>$ <span class='output' id='totalinterest'></span></td>
-            </tr>
-            <!-- end form. begin sponsors section below graph and form -->
-            <tr>
-                <th>Sponsors</th>
-                <td colspan=2>
-                    Apply for a loan with one of these fine lenders:
-                    <div id='lenders'></div>
-                </td>
-            </tr>
-        </table>
-
-
-
-        </div>
     </body>
 </html>
